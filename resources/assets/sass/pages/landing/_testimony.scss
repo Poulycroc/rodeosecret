@@ -1,0 +1,57 @@
+.testimony_include {
+  position: relative;
+  @include size(100%, 737px);
+  @include clearfix;
+
+  .title_section {
+    
+    h3, h2 { text-align: center; }
+
+    h3 {
+      height: 29px;
+      color: #852f8e;
+      font-family: "Museo Sans -700";
+      font-size: 30px;
+      font-weight: 400;
+    }
+
+    h2 {
+      margin-top: 15px;
+      height: 65px;
+      color: #010101;
+      font-family: Druk;
+      font-size: 72px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+  }
+
+  .pic_section {
+    @include size(567px, 817px);
+    @include pos(a, 30px, auto,auto,0);
+
+    background-size: 567px 817px;
+    background-repeat: no-repeat;
+
+  }
+
+  .tesimonies_container {
+    @include size(545px,235px);
+    @include pos(a, 330px, auto, auto, 725px);
+
+    ul li {
+      
+      color: #060606;
+      font-family: "Museo Sans -500";
+      font-size: 36px;
+      font-weight: 400;
+      /* Text style for "J, ’ai par" */
+      font-family: "Museo Sans 500";
+      /* Text style for "" */
+      font-family: "Museo Sans 500";
+      font-size: 30px;
+      /* Text style for "Julie D." */
+      font-family: "Museo Sans -300";
+    }
+  }
+}

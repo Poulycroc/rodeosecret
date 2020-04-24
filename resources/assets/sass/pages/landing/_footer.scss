@@ -1,0 +1,52 @@
+.footer_landing_include_wrapper {
+  section {
+    &.form {
+      @include size(100%, 1051px);
+      background-size: cover;
+      background-position: top center;
+      padding-top: 148px;
+      padding-bottom: 135px;
+
+      .brands_logos {
+        width: 414px;
+        padding-top: 280px;
+        padding-left: 152px;
+        
+        .club_avantages {
+          @include size(399px, 203px);
+          img { display: block; width: 100%; }
+        }
+        .partners {
+          @include size(414px, 33px);
+          margin-top: 10px;
+          & > div {
+            @include size(auto, 100%);
+            float: left;
+            margin-right: 20px;
+            img {
+              display: block;
+              height: 100%;
+            }
+
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+        }
+      }
+    }
+    &.copyright {
+      @include size(100%, 217px);
+      background-color: color(b);
+      color: color(w);
+      padding-top: 60px;
+
+      p {
+        margin: 0 auto;
+        text-align: center;
+        max-width: 1000px;
+      }
+    }
+  }
+  
+}

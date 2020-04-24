@@ -1,0 +1,44 @@
+// Tools and variables from uikit
+// @import "~qwerteach-uikit/assets/sass/_tools.scss";
+@import '~sass-tools/tools/media-queries';
+@import '~sass-tools/tools/mixins';
+@import '~sass-tools/tools/rfs';
+
+@import './config/colors';
+@import './config/sizes';
+@import '~sass-tools/tools/functions';
+
+@import 'variables';
+@import '~bootstrap/scss/bootstrap';
+@import '~sweetalert2/src/sweetalert2';
+
+@import './vendor/index';
+
+@import './config/base';
+@import './config/typo';
+
+@import 'elements/card';
+@import 'elements/navbar';
+@import 'elements/buttons';
+@import 'elements/transitions';
+
+@import './components/loading';
+@import './components/forms/contact';
+@import './components/card';
+
+@import './config/base';
+
+
+/**
+ * PAGES
+ */
+@import './pages/landing/nav';
+@import './pages/landing/header';
+@import './pages/landing/compititions';
+@import './pages/landing/footer';
+@import './pages/landing/testimony';
+@import './pages/landing/social';
+
+@import './pages/sign/in';
+
+@import './pages/crud/index';

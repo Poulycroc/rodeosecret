@@ -1,0 +1,29 @@
+.contact-form {
+  box-shadow: 0px 0px 15px 0px rgba(22, 133, 244, 0.3);
+  border-radius: 10px;
+  padding: 52px 30px 60px;
+  background-color: color(w);
+
+  .contact-title {
+    margin: 0 0 60px;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+    input,
+    textarea {
+      color: color(font);
+      border: 0;
+      font-family: "Museo Sans -500";
+      font-size: s(fz);
+      border-bottom: 1px solid color(light);
+    }
+    input {
+      height: 60px;
+      padding-left: 40px;
+    }
+    textarea {
+      height: 164px;
+      padding: 20px 0 0 40px;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+section.header_include {
+  @include size(100%, 840px);
+
+  .main_title_article {
+    float: left;
+    margin-top: 197px;
+    @include size(568px, auto);
+
+    .brand_logo {
+      @include size(399px, 203px);
+      margin-bottom: 68px;
+      img { display: block; width: 100%; }
+    }
+
+    span.color_title {
+      color: #961792;
+      font-family: "Museo Sans -700";
+      font-size: 28px;
+      font-weight: 400;
+    }
+
+    h1 {
+      color: #030304;
+      font-family: Druk;
+      font-size: 65px;
+      font-weight: 500;
+      line-height: 72px;
+      text-transform: uppercase;
+      margin-bottom: 51px;
+    }
+
+    article.about {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 26px;
+    }
+  }
+
+  .image_container {
+    @include size(754px, 840px);
+    @include pos(a,0,0,auto,auto);
+    float: right;
+    img { width: 100%; display: block; }
+  }
+}

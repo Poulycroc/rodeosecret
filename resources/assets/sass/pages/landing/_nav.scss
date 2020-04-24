@@ -1,0 +1,19 @@
+.landing_main_navbar_wrapper {
+  @include size(100% ,auto);
+  @include pos(f,0,0,auto);
+  z-index: z(navbar);
+
+  .brand_logo {
+    @include size(97px, 51px);
+    img { display: block; width: 100%; }
+  }
+
+  ul.links {
+    list-style: none;
+    @include clearfix;
+    padding-left: 0;
+    li {
+      float: left;
+    }
+  }
+}
