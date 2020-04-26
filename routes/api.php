@@ -16,20 +16,43 @@ $router->group(['middleware' => 'laravel.jwt'], function () use ($router) {
         return auth()->user();
     });
     $router->post('logout', ['uses' => 'Auth\LoginController@logout']);
-    $router->patch('settings/profile', ['uses' => 'Settings\ProfileController@update']);
-    $router->patch('settings/password', ['uses' => 'Settings\PasswordController@update']);
 
-    $router->get('categories', 'CategoryController@index');
-    $router->post('categories', 'CategoryController@create');
-    $router->get('categories/{id}', 'CategoryController@show');
-    $router->put('categories/{id}', 'CategoryController@update');
-    $router->delete('categories/{id}', 'CategoryController@destroy');
+    $router->group([
+        'prefix' => 'settings'
+    ], function ($router) {
+        $router->patch('/profile', ['uses' => 'Settings\ProfileController@update']);
+        $router->patch('/password', ['uses' => 'Settings\PasswordController@update']);
+    });
     
-    $router->get('competitions', 'CompetitionController@index');
-    $router->post('competitions', 'CompetitionController@create');
-    $router->get('competitions/{id}', 'CompetitionController@show');
-    $router->put('competitions/{id}', 'CompetitionController@update');
-    $router->delete('competitions/{id}', 'CompetitionController@destroy');
+    $router->group([
+        'prefix' => 'categories'
+    ], function ($router) {
+        $router->get('/', 'CategoryController@index');
+        $router->post('/', 'CategoryController@create');
+        $router->get('/{id}', 'CategoryController@show');
+        $router->put('/{id}', 'CategoryController@update');
+        $router->delete('/{id}', 'CategoryController@destroy');
+    });
+    
+    $router->group([
+        'prefix' => 'competitions'
+    ], function ($router) {
+        $router->get('/', 'CompetitionController@index');
+        $router->post('/', 'CompetitionController@create');
+        $router->get('/{id}', 'CompetitionController@show');
+        $router->put('/{id}', 'CompetitionController@update');
+        $router->delete('/{id}', 'CompetitionController@destroy');
+    });
+
+    $router->group([
+        'prefix' => 'participants'
+    ], function ($router) {
+        $router->get('/', 'ParticipantController@index');
+        $router->post('/', 'ParticipantController@create');
+        $router->get('/{id}', 'ParticipantController@show');
+        $router->put('/{id}', 'ParticipantController@update');
+        $router->delete('/{id}', 'ParticipantController@destroy');
+    });
 });
 
 $router->group([], function () use ($router) {

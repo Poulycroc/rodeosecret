@@ -11,7 +11,8 @@ class CompetitionController extends Controller
 {
   public function index()
   {
-    $competitions = Competition::all();
+    $competitions = Competition::orderBy('publication','DESC')
+                               ->get();
                                
     return response()->json($competitions);
   }

@@ -13,6 +13,7 @@ import { toKebabCase } from "~/utils";
 import Child from "~/components/Child";
 import Loading from "~/components/Loading";
 import Avatar from "~/components/Avatar";
+import TableContainer from "~/components/Table";
 import Page from "~/components/tools/YieldPage";
 
 import Contact from "~/components/forms/ContactForm";
@@ -26,7 +27,8 @@ const importer = {
     Child,
     HasError,
     AlertError,
-    AlertSuccess
+    AlertSuccess,
+    TableContainer
   },
 
   forms: {

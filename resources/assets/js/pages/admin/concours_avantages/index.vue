@@ -5,48 +5,14 @@
     </div>
 
     <b-card>
-      <b-row class="top_actions">
-        <b-col md="6" class="my-1">
-          <b-form-group
-            label="Filter"
-            label-cols-sm="3"
-            label-align-sm="right"
-            label-size="sm"
-            label-for="filterInput"
-            class="mb-0"
-          >
-            <b-input-group size="sm">
-              <b-form-input
-                v-model="filter"
-                type="search"
-                id="filterInput"
-                placeholder="Type to Search"
-              ></b-form-input>
-              <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''"
-                  >Clear</b-button
-                >
-              </b-input-group-append>
-            </b-input-group>
-          </b-form-group>
-        </b-col>
-
-        <b-col md="3" class="my-1">
-          <b-button variant="primary" size="sm" @click="handleAdd"
-            >Ajouter</b-button
-          >
-        </b-col>
-      </b-row>
-
       <div class="content">
-        <b-table hover :items="competitions" :fields="fields" :busy="isBusy">
-          <template v-slot:cell(actions)="{ item }">
-            <b-button variant="link" @click="handleEdit(item)">Editer</b-button>
-            <b-button variant="link" @click="handleRemove(item)"
-              >Supprimer</b-button
-            >
-          </template>
-        </b-table>
+        <table-container
+          :items="competitions"
+          :fields="fields"
+          @add="handleAdd"
+          @edit="handleEdit"
+          @delete="handleRemove"
+        />
       </div>
     </b-card>
 
@@ -122,7 +88,7 @@ export default {
           key: "in_landing",
           label: "Afficher sur la home",
           formatter: (value, key, item) => {
-            return item.in_landing === '1' ? 'Oui' : 'Non'
+            return item.in_landing === "1" ? "Oui" : "Non";
           },
           sortable: true
         },
@@ -130,7 +96,7 @@ export default {
           key: "on_top",
           label: "Afficher sur le haut",
           formatter: (value, key, item) => {
-            return item.on_top === '1' ? 'Oui' : 'Non'
+            return item.on_top === "1" ? "Oui" : "Non";
           },
           sortable: true
         }

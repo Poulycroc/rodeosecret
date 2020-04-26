@@ -10,15 +10,8 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item>
-          <router-link :to="{ name: 'admin.categories' }"
-            >Catégories</router-link
-          >
-        </b-nav-item>
-        <b-nav-item>
-          <router-link :to="{ name: 'admin.concours_avantages' }"
-            >Concours Avantages</router-link
-          >
+        <b-nav-item v-for="(link, i) in links" :key="i">
+          <router-link :to="{ name: link.path }">{{ link.label }}</router-link>
         </b-nav-item>
       </b-navbar-nav>
 
@@ -41,7 +34,21 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      appName: window.config.appName
+      appName: window.config.appName,
+      links: [
+        {
+          path: "admin.categories",
+          label: "Catégories"
+        },
+        {
+          path: "admin.concours_avantages",
+          label: "Concours Avantages"
+        },
+        {
+          path: "admin.participations",
+          label: "Participations"
+        }
+      ]
     };
   },
 

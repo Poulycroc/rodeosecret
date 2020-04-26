@@ -56,6 +56,22 @@ export default [
   {
     path: "/admin/concours_avantages",
     name: "admin.concours_avantages",
-    component: () => import("~/pages/admin/concours_avantages")
+    component: () => import("~/pages/admin/concours_avantages/index")
+  },
+  {
+    path: "/admin/concours_avantages/:id",
+    name: "admin.concours_avantages.show",
+    component: () => import("~/pages/admin/concours_avantages/show")
+  },
+
+  {
+    path: "/admin/participations",
+    name: "admin.participations",
+    component: () => import("~/pages/admin/participations/index")
+  },
+  {
+    path: "/admin/participations/:id",
+    name: "admin.participations.show",
+    component: () => import("~/pages/admin/participations/show")
   }
 ];
