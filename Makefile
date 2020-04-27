@@ -61,6 +61,9 @@ migration:
 model:
 	php artisan make:model 'Models\$(name)'
 
+route-list:
+	php artisan route:list
+
 install:
 	npm i
 	@composer.phar install

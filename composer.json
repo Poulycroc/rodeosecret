@@ -18,7 +18,8 @@
         "albertcht/lumen-helpers": "dev-master",
         "illuminate/mail": "^5.6",
         "illuminate/notifications": "^5.6",
-        "ramsey/uuid": "^3.7"
+        "ramsey/uuid": "^3.7",
+        "appzcoder/lumen-routes-list": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

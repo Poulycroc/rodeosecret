@@ -21,7 +21,12 @@ const actions = {
   },
 
   async setParticipants({ commit }, payload) {
-    const { data } = await axios.post("participants", payload);
+    const test = {
+      competition_id: payload.competition.id,
+      ...payload.participant
+    }
+    console.log({ test })
+    const { data } = await axios.post("participants", test);
     // flash data.category
     commit("SET_PARTICIPANTS", { participants: data.participants });
   },

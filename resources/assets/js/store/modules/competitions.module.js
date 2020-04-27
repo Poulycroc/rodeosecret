@@ -1,16 +1,21 @@
 import axios from "axios";
 
 const state = () => ({
-  competitions: []
+  competitions: [],
+  currCompetition: {}
 });
 
 const getters = {
-  competitions: state => state.competitions
+  competitions: state => state.competitions,
+  currCompetition: state => state.currCompetition
 };
 
 const mutations = {
   SET_COMPETITIONS(state, { competitions }) {
     state.competitions = competitions;
+  },
+  SET_CURREN_COMPETITION(state, { competition }) {
+    state.currCompetition = competition;
   }
 };
 
@@ -20,9 +25,16 @@ const actions = {
     commit("SET_COMPETITIONS", { competitions });
   },
 
+  async getCompetition({ commit }, id) {
+    const { data } = await axios.get(`competitions/${id}`);
+    commit("SET_CURREN_COMPETITION", { competition: data.competition });
+  },
+
   async setCompetitions({ commit }, payload) {
+    console.log({ setCompetitions: payload });
     const { data } = await axios.post("competitions", payload);
     // flash data.category
+    console.log({ data });
     commit("SET_COMPETITIONS", { competitions: data.competitions });
   },
 
@@ -33,7 +45,7 @@ const actions = {
   },
 
   async deleteCompetitions({ commit }, { id }) {
-    console.log('deleteCompetitions')
+    console.log("deleteCompetitions");
     const { data } = await axios.delete(`competitions/${id}`);
     // flash data.category
     commit("SET_COMPETITIONS", { competitions: data.competitions });

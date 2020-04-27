@@ -1,9 +1,0 @@
-@font-face {
-  font-family: "Druk";
-  src: url("Druk-Medium.otf") format('otf');
-}
-@font-face {
-  font-family: "DrukItalic";
-  src: url("Druk-MediumItalic.otf") format('otf');
-  font-style: italic;
-}

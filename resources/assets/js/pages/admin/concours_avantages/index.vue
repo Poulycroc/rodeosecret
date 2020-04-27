@@ -17,33 +17,23 @@
     </b-card>
 
     <b-modal
-      v-model="isCategoryModalOpen"
+      v-model="isCompetitionModalOpen"
       title="BootstrapVue"
+      size="lg"
       @hidden="handleHidden"
       @cancel="handleHidden"
       @ok="handleSubmit"
     >
-      <form ref="form" @submit.stop.prevent="handleSubmit">
-        <b-form-group
-          :state="nameState"
-          label="Name"
-          label-for="name-input"
-          invalid-feedback="Name is required"
-        >
-          <b-form-input
-            id="name-input"
-            v-model="categoryForm.name"
-            :state="nameState"
-            required
-          ></b-form-input>
-        </b-form-group>
-      </form>
+      <add-competition-form
+        :edit-mode="isEditModalMode"
+        @change="handleCompetitionChange"
+      />
     </b-modal>
   </page>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 const defaultCategoryForm = {
   id: null,
@@ -57,7 +47,7 @@ export default {
   data() {
     return {
       isBusy: false,
-      isCategoryModalOpen: false,
+      isCompetitionModalOpen: false,
       fields: [
         {
           key: "actions",
@@ -101,8 +91,9 @@ export default {
           sortable: true
         }
       ],
-      categoryForm: defaultCategoryForm,
-      nameState: null
+
+      competitionToSubmit: null,
+      isEditModalMode: false
     };
   },
   created() {
@@ -114,60 +105,59 @@ export default {
     })
   },
   methods: {
-    toggleModal(status) {
-      this.isCategoryModalOpen = status;
+    ...mapActions({
+      getCategories: "categories/getCategories",
+      setCategories: "categories/setCategories",
+      editCategories: "categories/editCategories",
+
+      setCompetitions: "competitions/setCompetitions",
+      getCompetition: "competitions/getCompetition",
+      editCompetitions: "competitions/editCompetitions",
+      deleteCompetitions: "competitions/deleteCompetitions"
+    }),
+
+    handleCompetitionChange(competition) {
+      console.log({ competition });
+      this.competitionToSubmit = competition;
     },
-    handleAdd() {
-      this.categoryForm.name = "";
-      this.toggleModal(true);
+
+    async handleAdd() {
+      await this.getCategories();
+      this.isCompetitionModalOpen = true;
     },
-    handleHidden() {
-      this.categoryForm = defaultCategoryForm;
-      this.nameState = null;
-      this.toggleModal(false);
+
+    /**
+     * @param {Object} competition
+     */
+    async handleEdit({ id }) {
+      await this.getCompetition(id)
+      await this.getCategories();
+      this.isEditModalMode = true
+      this.isCompetitionModalOpen = true;
     },
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.nameState = valid;
-      return valid;
+    async handleRemove({ id, title }) {
+      await this.getCategories();
+      this.showDeleteMessage(id, title);
     },
-    handleSubmit($event) {
-      this.categoryForm.name = "";
-      this.nameState = null;
+    handleHidden($event) {
+      this.isEditModalMode = false
+      this.isCompetitionModalOpen = false;
+      console.log({ $event });
     },
-    handleOk(bvModalEvt) {
-      bvModalEvt.preventDefault();
-      this.handleSubmit();
-    },
-    handleSubmit() {
-      if (!this.checkFormValidity()) return;
-      const { id, name } = this.categoryForm;
-      this.isBusy = true;
-      if (id === null) {
-        this.$store.dispatch("categories/setCategories", { name });
+    async handleSubmit($event) {
+      console.log('handleSubmit')
+      console.log({ isEditModalMode: this.isEditModalMode })
+      if (this.isEditModalMode) {
+        await this.setCompetitions(this.competitionToSubmit);
       } else {
-        this.$store.dispatch(`categories/editCategories`, { id, name });
+        await this.editCompetitions(this.competitionToSubmit)
       }
-
-      this.categoryForm = defaultCategoryForm;
-      this.toggleModal(false);
-      this.isBusy = false;
     },
 
-    handleEdit({ id, name }) {
-      this.categoryForm = {
-        id,
-        name
-      };
-      this.toggleModal(true);
-    },
-    handleRemove(item) {
-      this.showDeleteMessage(item.id);
-    },
-
-    showDeleteMessage(id) {
+    showDeleteMessage(id, title) {
+      const t = `Supprimer le concours "${title}" ?`;
       this.$bvModal
-        .msgBoxConfirm("Supprimer la catégorie ?", {
+        .msgBoxConfirm(t, {
           title: "Attention",
           size: "sm",
           buttonSize: "sm",
@@ -177,7 +167,7 @@ export default {
           hideHeaderClose: false,
           centered: true
         })
-        .then(() => this.$store.dispatch("categories/deleteCategories", { id }))
+        .then(async () => await this.deleteCompetitions({ id }))
         .catch(err => console.log(err));
     }
   }

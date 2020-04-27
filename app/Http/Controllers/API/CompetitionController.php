@@ -20,20 +20,22 @@ class CompetitionController extends Controller
   public function create(Request $request)
   {
     $competition = new Competition;
-    $competition->title = $request->title;
-    $competition->type = $request->type;
-    $competition->in_landing = $request->in_landing;
-    $competition->on_top = $request->on_top;
-    $competition->publication = $request->publication;
-    $competition->start_event = $request->start_event;
-    $competition->description = $request->description;
+    $competition->title = $request->input('title');
+    $competition->type = $request->input('type');
+    $competition->in_landing = $request->input('in_landing');
+    $competition->on_top = $request->input('on_top');
+    $competition->publication = $request->input('publication');
+    $competition->start_event = $request->input('start_event');
+    $competition->description = $request->input('description');
+    $competition->category_id = $request->input('category_id');
     $competition->save();
 
-    $competitions = Competition::all();
+    $competitions = Competition::orderBy('publication','DESC')
+                               ->get();
 
     return response()->json([
-      $competition => 'competition',
-      $competitions => 'competitions'
+      'competition' => $competition,
+      'competitions' => $competitions
     ]);
   }
 
@@ -43,8 +45,8 @@ class CompetitionController extends Controller
     $competitions = Competition::all();
 
     return response()->json([
-      $competition => 'competition',
-      $competitions => 'competitions'
+      'competition' => $competition,
+      'competitions' => $competitions
     ]);
   }
 
@@ -59,13 +61,14 @@ class CompetitionController extends Controller
     $competition->publication = $request->input('publication');
     $competition->start_event = $request->input('start_event');
     $competition->description = $request->input('description');
+    $competition->category_id = $request->input('category_id');
     $competition->save();
 
     $competitions = Competition::all();
     
     return response()->json([
-      $competition => 'competition',
-      $competitions => 'competitions'
+      'competition' => $competition,
+      'competitions' => $competitions
     ]);
   }
 
@@ -77,8 +80,8 @@ class CompetitionController extends Controller
     $competitions = Competition::all();
 
     return response()->json([
-      $competition => 'competition',
-      $competitions => 'competitions'
+      'competition' => $competition,
+      'competitions' => $competitions
     ]);
   }
 }

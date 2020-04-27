@@ -16,6 +16,7 @@ const mutations = {
 
 const actions = {
   async getCategories({ commit }) {
+    console.log('getCategories')
     const { data: categories } = await axios.get("categories");
     commit("SET_CATEGORIES", { categories });
   },

@@ -14,10 +14,13 @@ import Child from "~/components/Child";
 import Loading from "~/components/Loading";
 import Avatar from "~/components/Avatar";
 import TableContainer from "~/components/Table";
+import BirthDay from "~/components/BirthDay";
 import Page from "~/components/tools/YieldPage";
 
 import Contact from "~/components/forms/ContactForm";
 import AddCategory from "~/components/forms/AddCategory";
+import SignCompetition from "~/components/forms/SignCompetition";
+import AddCompetition from '~/components/forms/AddCompetition'
 
 const importer = {
   components: {
@@ -28,12 +31,15 @@ const importer = {
     HasError,
     AlertError,
     AlertSuccess,
-    TableContainer
+    TableContainer,
+    BirthDay
   },
 
   forms: {
     Contact,
-    AddCategory
+    AddCategory,
+    AddCompetition,
+    SignCompetition
   }
 };
 

@@ -4,6 +4,9 @@
     class="swiper_component"
     v-swiper:swiperComponent="options"
     ref="swiperComponent"
+    @mouseenter="handleMouseenter"
+    @mouseleave="handleLeave"
+    @click="handleClick"
   >
     <div class="swiper-wrapper">
       <slot />
@@ -43,6 +46,26 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    }
+  },
+  computed: {
+    swiper() {
+      return this.$refs.swiperComponent.swiper;
+    }
+  },
+  methods: {
+    freez() {
+      this.swiper.autoplay.stop();
+    },
+
+    handleMouseenter() {
+      this.freez();
+    },
+    handleLeave() {
+      this.swiper.autoplay.start();
+    },
+    handleClick() {
+      this.freez();
     }
   }
 };

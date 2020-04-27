@@ -1,0 +1,27 @@
+.sign_competition_modal_custom {
+  header {
+    border-bottom-color: transparent;
+    button.close {
+      @include pos(a, 10px, 10px, auto, auto);
+    }
+  }
+}
+.signin_competition_form_wrapper {
+  .title_form {
+    padding-bottom: 10px;
+    h2,
+    p {
+      text-align: center;
+    }
+  }
+  .form_content {
+    label,
+    input {
+      width: 100%;
+      display: inline-block;
+    }
+  }
+  .footer input {
+    float: right;
+  }
+}
