@@ -9,8 +9,10 @@
         <table-container
           :items="participants"
           :fields="fields"
+          :actions="['show']"
           @add="handleAdd"
           @edit="handleEdit"
+          @show="handleShow"
           @delete="handleRemove"
         />
       </div>
@@ -65,13 +67,16 @@ export default {
           formatter: value => value
         },
         {
-          key: "type",
+          key: "title",
           label: "Concours/avantages",
           sortable: true
         },
         {
           key: "count",
           label: "Nombre de participants",
+          formatter: (value, key, item) => {
+            return item.participants.length;
+          },
           sortable: true
         }
       ],
@@ -128,6 +133,9 @@ export default {
       this.isBusy = false;
     },
 
+    handleShow({ id }) {
+      this.$router.push({ name: "admin.participations.show", params: { id } });
+    },
     handleEdit({ id, name }) {
       this.categoryForm = {
         id,

@@ -48,10 +48,22 @@ $router->group(['middleware' => 'laravel.jwt'], function () use ($router) {
         'prefix' => 'participants'
     ], function ($router) {
         $router->get('/', 'ParticipantController@index');
+        $router->get('/signed/{competitionId}', 'ParticipantController@signed');
+        $router->get('/winners/{competitionId}', 'ParticipantController@winners');
         $router->post('/', 'ParticipantController@create');
         $router->get('/{id}', 'ParticipantController@show');
         $router->put('/{id}', 'ParticipantController@update');
         $router->delete('/{id}', 'ParticipantController@destroy');
+    });
+
+    $router->group([
+        'prefix' => 'winners'
+    ], function ($router) {
+        $router->get('/', 'WinnerController@index');
+        $router->get('generate/{competitionID}', 'WinnerController@generateWinner');
+        $router->post('/save', 'WinnerController@create');
+        $router->put('/', 'WinnerController@update');
+        $router->delete('/', 'WinnerController@destroy');
     });
 });
 

@@ -60,6 +60,8 @@ migration:
 	php artisan make:migration create_$(name)_table
 model:
 	php artisan make:model 'Models\$(name)'
+migrate-one:
+	php artisan migrate --path=/database/migrations/$(name)/
 
 route-list:
 	php artisan route:list

@@ -1,16 +1,26 @@
 import axios from "axios";
 
 const state = () => ({
-  participants: []
+  participants: [],
+  signedParticipants: [],
+  winnersParticipants: []
 });
 
 const getters = {
-  participants: state => state.participants
+  participants: state => state.participants,
+  signedParticipants: state => state.signedParticipants,
+  winnersParticipants: state => state.winnersParticipants
 };
 
 const mutations = {
   SET_PARTICIPANTS(state, { participants }) {
     state.participants = participants;
+  },
+  SET_SIGNED_PARTICIPANTS(state, participants) {
+    state.signedParticipants = participants;
+  },
+  SET_WINNERS_PARTICIPANTS(state, participants) {
+    state.winnersParticipants = participants;
   }
 };
 
@@ -42,6 +52,22 @@ const actions = {
     const { data } = await axios.delete(`participants/${id}`);
     // flash data.category
     commit("SET_PARTICIPANTS", { participants: data.participants });
+  },
+
+  /**
+   * @param {String or Number} id - competitionID 
+   */
+  async getSignedParaticipants({ commit }, id) {
+    const { data } = await axios.get(`participants/signed/${id}`)
+    commit('SET_SIGNED_PARTICIPANTS', data)
+  },
+
+  /**
+   * @param {String or Number} id - competitionID 
+   */
+  async getWinnersParticipants({ commit }, id) {
+    const { data } = await axios.get(`participants/winners/${id}`)
+    commit('SET_WINNERS_PARTICIPANTS', data)
   }
 };
 

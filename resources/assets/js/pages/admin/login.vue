@@ -89,29 +89,17 @@ export default {
     remember: false
   }),
 
-  mounted() {
-    console.log({ form: this.form })
-  },
-
   methods: {
     test() {
       console.log('test')
     },
     async login() {
-      console.log({ form: this.form })
-      // Submit the form.
       const { data } = await this.form.post("login");
-
-      // Save the token.
       this.$store.dispatch("auth/saveToken", {
         token: data.token,
         remember: this.remember
       });
-
-      // Fetch the user.
       await this.$store.dispatch("auth/fetchUser");
-
-      // Redirect home.
       this.$router.push({ name: 'admin.dashboard' });
     }
   }

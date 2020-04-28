@@ -12,7 +12,30 @@ class ParticipantController extends Controller
 {
   public function index()
   {
-    $participants = Participant::all();
+    $competitions = Competition::with('participants')->get();
+    return response()->json($competitions);
+  }
+
+  public function signed($competitionId) {
+    $this->id = $competitionId;
+    $participants = Participant::with('competitions')
+                               ->whereHas('competitions', function($q) {
+                                $q->where('id', '=', $this->id);
+                               })
+                               ->get();
+                               
+    return response()->json($participants);
+  }
+
+  public function winners($competitionId) {
+    $this->id = $competitionId;
+    $participants = Participant::with('competitions')
+                               ->where('status', '=', 1)
+                               ->whereHas('competitions', function($q) {
+                                $q->where('id', '=', $this->id);
+                               })
+                               ->get();
+
     return response()->json($participants);
   }
 

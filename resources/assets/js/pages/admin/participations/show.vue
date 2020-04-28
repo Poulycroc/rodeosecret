@@ -1,49 +1,58 @@
 <template>
   <page name="categories_admin" type="admin">
     <div class="container">
-      <h2>Participations</h2>
+      <h2>
+        Participants: <small>{{ currCompetition.title }}</small>
+      </h2>
     </div>
 
-    <b-card>
-      <div class="content">
+    <div class="centered_content marg_b">
+      <b-button variant="outline-primary" @click="backToParticipants">
+        Retour a la liste des participants
+      </b-button>
+    </div>
+
+    <b-card title="Générer les gagnants">
+      <b-row>
+        <b-col md="9">
+          <v-select :options="mapParticipants" />
+        </b-col>
+        <b-col md="3">
+          <b-button variant="primary" @click="handleGenerateWinner">
+            Générer un gagnant
+          </b-button>
+        </b-col>
+      </b-row>
+    </b-card>
+
+    <b-card title="Les gagnants">
+      <div v-if="winnersParticipants.length" class="content">
         <table-container
-          :items="participants"
-          :fields="fields"
-          @add="handleAdd"
-          @edit="handleEdit"
-          @delete="handleRemove"
+          hide-top-actions
+          hide-actions
+          :items="winnersParticipants"
+          :fields="participantsFields"
         />
+      </div>
+      <div v-else class="content">
+        Pas de gagnants pour le moment
       </div>
     </b-card>
 
-    <b-modal
-      v-model="isCategoryModalOpen"
-      title="BootstrapVue"
-      @hidden="handleHidden"
-      @cancel="handleHidden"
-      @ok="handleSubmit"
-    >
-      <form ref="form" @submit.stop.prevent="handleSubmit">
-        <b-form-group
-          :state="nameState"
-          label="Name"
-          label-for="name-input"
-          invalid-feedback="Name is required"
-        >
-          <b-form-input
-            id="name-input"
-            v-model="categoryForm.name"
-            :state="nameState"
-            required
-          ></b-form-input>
-        </b-form-group>
-      </form>
-    </b-modal>
+    <b-card title="Toues les participations">
+      <div class="content">
+        <table-container
+          hide-top-actions
+          :items="signedParticipants"
+          :fields="participantsFields"
+        />
+      </div>
+    </b-card>
   </page>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 const defaultCategoryForm = {
   id: null,
@@ -58,46 +67,27 @@ export default {
     return {
       isBusy: false,
       isCategoryModalOpen: false,
-      fields: [
+      participantsFields: [
         {
-          key: "actions",
-          label: "Actions",
-          formatter: value => value
-        },
-        {
-          key: "type",
-          label: "Type",
+          key: "status",
+          label: "Gagant",
+          formatter: this.checkWin,
           sortable: true
         },
         {
-          key: "title",
-          label: "Titre",
+          key: "name",
+          label: "Nom & prénom",
           sortable: true
         },
         {
-          key: "start_event",
-          label: "Date événement",
+          key: "email",
+          label: "Email",
+          formatter: v => v,
           sortable: true
         },
         {
-          key: "publication",
-          label: "Date publication",
-          sortable: true
-        },
-        {
-          key: "in_landing",
-          label: "Afficher sur la home",
-          formatter: (value, key, item) => {
-            return item.in_landing === "1" ? "Oui" : "Non";
-          },
-          sortable: true
-        },
-        {
-          key: "on_top",
-          label: "Afficher sur le haut",
-          formatter: (value, key, item) => {
-            return item.on_top === "1" ? "Oui" : "Non";
-          },
+          key: "birthday",
+          label: "Date de naissance",
           sortable: true
         }
       ],
@@ -106,79 +96,77 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("participants/getParticipants");
+    const { id } = this.$route.params;
+    this.getWinnersParticipants(id);
+    this.getSignedParaticipants(id);
+    this.getCompetition(id);
   },
   computed: {
     ...mapGetters({
-      participants: "participants/participants"
-    })
+      currCompetition: "competitions/currCompetition",
+      winnersParticipants: "participants/winnersParticipants",
+      signedParticipants: "participants/signedParticipants",
+      currWinner: "winners/currWinner"
+    }),
+
+    mapParticipants() {
+      return this.signedParticipants.map(p => ({
+        code: p.id,
+        label: p.name
+      }));
+    }
   },
   methods: {
-    toggleModal(status) {
-      this.isCategoryModalOpen = status;
-    },
-    handleAdd() {
-      this.categoryForm.name = "";
-      this.toggleModal(true);
-    },
-    handleHidden() {
-      this.categoryForm = defaultCategoryForm;
-      this.nameState = null;
-      this.toggleModal(false);
-    },
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.nameState = valid;
-      return valid;
-    },
-    handleSubmit($event) {
-      this.categoryForm.name = "";
-      this.nameState = null;
-    },
-    handleOk(bvModalEvt) {
-      bvModalEvt.preventDefault();
-      this.handleSubmit();
-    },
-    handleSubmit() {
-      if (!this.checkFormValidity()) return;
-      const { id, name } = this.categoryForm;
-      this.isBusy = true;
-      if (id === null) {
-        this.$store.dispatch("categories/setCategories", { name });
-      } else {
-        this.$store.dispatch(`categories/editCategories`, { id, name });
-      }
+    ...mapActions({
+      getCompetition: "competitions/getCompetition",
+      getWinnersParticipants: "participants/getWinnersParticipants",
+      getSignedParaticipants: "participants/getSignedParaticipants",
 
-      this.categoryForm = defaultCategoryForm;
-      this.toggleModal(false);
-      this.isBusy = false;
+      generateWinner: "winners/generateWinner",
+      saveWinner: "winners/saveWinner"
+    }),
+
+    // -- FORMATTERS
+    checkWin(value, key, item) {
+      const c = item.status === "1" || item.status === 1;
+      return c ? "Oui" : "Non";
     },
 
-    handleEdit({ id, name }) {
-      this.categoryForm = {
-        id,
-        name
-      };
-      this.toggleModal(true);
-    },
-    handleRemove(item) {
-      this.showDeleteMessage(item.id);
+    backToParticipants() {
+      this.$router.push({ name: "admin.participations" });
     },
 
-    showDeleteMessage(id) {
+    async handleGenerateWinner() {
+      await this.generateWinner(this.currCompetition.id);
+
+      const h = this.$createElement;
+      const { name, email } = this.currWinner;
+      const msg = h("div", null, [
+        h("p", { class: ["text-center"] }, [
+          "Le gagnant sera ",
+          h("strong", name),
+          ` (${email}) `,
+          h("br"),
+          "Pour le concours ",
+          h("strong", this.currCompetition.title),
+          ", si vous confirmez"
+        ])
+      ]);
+
       this.$bvModal
-        .msgBoxConfirm("Supprimer la catégorie ?", {
-          title: "Attention",
+        .msgBoxConfirm([msg], {
+          title: "Confirmer le gagnant",
           size: "sm",
           buttonSize: "sm",
-          okVariant: "danger",
-          okTitle: "Oui",
-          cancelTitle: "Non",
+          okVariant: "success",
+          okTitle: "Copnfirmer",
+          cancelTitle: "Annuler",
+          footerClass: "p-2",
           hideHeaderClose: false,
           centered: true
         })
-        .then(() => this.$store.dispatch("categories/deleteCategories", { id }))
-        .catch(err => console.log(err));
+        .then(() => this.saveWinner(this.currWinner))
+        .catch(err => console.log({ err }));
     }
   }
 };

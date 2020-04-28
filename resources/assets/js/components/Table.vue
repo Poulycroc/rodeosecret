@@ -1,6 +1,6 @@
 <template>
   <div class="table_container_wrapper">
-    <b-row class="top_actions">
+    <b-row v-if="!hideTopActions" class="top_actions">
       <b-col md="6" class="my-1">
         <b-form-group
           label="Filter"
@@ -44,11 +44,29 @@
       :current-page="currentPage"
       @filtered="onFiltered"
     >
-      <template v-slot:cell(actions)="{ item }">
-        <b-button variant="link" @click="handleEdit(item)">Editer</b-button>
-        <b-button variant="link" @click="handleRemove(item)">
+      <template v-if="!hideActions" v-slot:cell(actions)="{ item }">
+        <b-button
+          v-if="showAction('show')"
+          variant="link"
+          @click="handleShow(item)"
+          >Voir</b-button
+        >
+        <b-button
+          v-if="showAction('edit')"
+          variant="link"
+          @click="handleEdit(item)"
+          >Editer</b-button
+        >
+        <b-button
+          v-if="showAction('delete')"
+          variant="link"
+          @click="handleRemove(item)"
+        >
           Supprimer
         </b-button>
+      </template>
+      <template v-slot:cell(email)="{ item }">
+        <a :href="`mailto:${item.email}`">{{ item.email }}</a>
       </template>
     </b-table>
 
@@ -77,23 +95,17 @@ export default {
       type: Array,
       required: true,
       default: () => []
+    },
+    hideTopActions: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
     return {
       isBusy: false
-    }
-  },
-  methods: {
-    handleEdit(item) {
-      this.$emit("edit", item);
-    },
-    handleRemove(item) {
-      this.$emit("delete", item);
-    },
-    handleAdd() {
-      this.$emit("add", true);
-    }
+    };
   }
 };
 </script>
