@@ -178,7 +178,7 @@ export default {
           centered: true
         })
         .then(() => this.$store.dispatch("categories/deleteCategories", { id }))
-        .catch(err => console.log(err));
+        .catch(err => new Error(err));
     }
   }
 };

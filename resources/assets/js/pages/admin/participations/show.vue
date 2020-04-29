@@ -166,7 +166,7 @@ export default {
           centered: true
         })
         .then(() => this.saveWinner(this.currWinner))
-        .catch(err => console.log({ err }));
+        .catch(err => new Error(err));
     }
   }
 };

@@ -31,18 +31,15 @@ const actions = {
   },
 
   async setParticipants({ commit }, payload) {
-    const test = {
+    const { data } = await axios.post("participants", {
       competition_id: payload.competition.id,
       ...payload.participant
-    }
-    console.log({ test })
-    const { data } = await axios.post("participants", test);
+    });
     commit("SET_PARTICIPANTS", { participants: data.participants });
   },
 
   async editParticipants({ commit }, { id, name }) {
     const { data } = await axios.put(`participants/${id}`, { name });
-    // flash data.category
     commit("SET_PARTICIPANTS", { participants: data.participants });
   },
 
@@ -52,19 +49,19 @@ const actions = {
   },
 
   /**
-   * @param {String or Number} id - competitionID 
+   * @param {String or Number} id - competitionID
    */
   async getSignedParaticipants({ commit }, id) {
-    const { data } = await axios.get(`participants/signed/${id}`)
-    commit('SET_SIGNED_PARTICIPANTS', data)
+    const { data } = await axios.get(`participants/signed/${id}`);
+    commit("SET_SIGNED_PARTICIPANTS", data);
   },
 
   /**
-   * @param {String or Number} id - competitionID 
+   * @param {String or Number} id - competitionID
    */
   async getWinnersParticipants({ commit }, id) {
-    const { data } = await axios.get(`participants/winners/${id}`)
-    commit('SET_WINNERS_PARTICIPANTS', data)
+    const { data } = await axios.get(`participants/winners/${id}`);
+    commit("SET_WINNERS_PARTICIPANTS", data);
   }
 };
 

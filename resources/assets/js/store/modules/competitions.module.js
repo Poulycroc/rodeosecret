@@ -65,7 +65,6 @@ const actions = {
   },
 
   async deleteCompetitions({ commit }, { id }) {
-    console.log("deleteCompetitions");
     const { data } = await axios.delete(`competitions/${id}`);
     commit("SET_COMPETITIONS", { competitions: data.competitions });
   }

@@ -90,9 +90,6 @@ export default {
   }),
 
   methods: {
-    test() {
-      console.log('test')
-    },
     async login() {
       const { data } = await this.form.post("login");
       this.$store.dispatch("auth/saveToken", {

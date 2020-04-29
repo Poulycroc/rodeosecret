@@ -79,7 +79,6 @@ export default {
     },
 
     async handleCompet({ id }) {
-      console.log("handleCompet");
       await this.getCompetition(id);
       this.showModal();
     },

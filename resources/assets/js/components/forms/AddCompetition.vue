@@ -14,7 +14,6 @@
       <b-form-select
         v-model="competitionForm.category_id"
         :options="mapCategories"
-        @change="handleChangeCat"
       />
     </b-form-group>
 
@@ -90,7 +89,6 @@ export default {
     }),
 
     mapCategories() {
-      console.log({ categories: this.categories });
       return this.categories.map(({ id, name }) => ({
         value: id,
         text: name
@@ -99,7 +97,6 @@ export default {
   },
   created() {
     if (this.editMode) {
-      console.log({ currCompetition: this.currCompetition });
       this.competitionForm = {
         ...this.competitionForm,
         ...this.currCompetition,
