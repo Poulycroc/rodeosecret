@@ -1,19 +1,23 @@
 import axios from "axios";
-import apiService from "../../services/api.service";
 
 const state = () => ({
   competitions: [],
+  landingCompetitions: [],
   currCompetition: {}
 });
 
 const getters = {
   competitions: state => state.competitions,
+  landingCompetitions: state => state.landingCompetitions,
   currCompetition: state => state.currCompetition
 };
 
 const mutations = {
   SET_COMPETITIONS(state, { competitions }) {
     state.competitions = competitions;
+  },
+  SET_LANDING_COMPETITIONS(state, { competitions }) {
+    state.landingCompetitions = competitions;
   },
   SET_CURREN_COMPETITION(state, { competition }) {
     state.currCompetition = competition;
@@ -24,6 +28,11 @@ const actions = {
   async getCompetitions({ commit }) {
     const { data: competitions } = await axios.get("competitions");
     commit("SET_COMPETITIONS", { competitions });
+  },
+
+  async getLandingCompetitions({ commit }) {
+    const { data: competitions } = await axios.get("competitions/landing");
+    commit("SET_LANDING_COMPETITIONS", { competitions });
   },
 
   async getCompetition({ commit }, id) {

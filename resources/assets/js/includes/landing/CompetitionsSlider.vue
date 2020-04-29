@@ -15,7 +15,7 @@
           <header>
             <img
               v-if="competition.image"
-              :src="competition.image.src"
+              :src="rendImg(competition.image)"
               :alt="competition.image.alt"
             />
             <h2>{{ competition.title }}</h2>
@@ -58,15 +58,15 @@ export default {
   },
   computed: {
     competitions() {
-      return this.$store.getters["competitions/competitions"];
+      return this.$store.getters["competitions/landingCompetitions"];
     }
   },
   mounted() {
-    this.getCompetitions();
+    this.getLandingCompetitions();
   },
   methods: {
     ...mapActions({
-      getCompetitions: "competitions/getCompetitions",
+      getLandingCompetitions: "competitions/getLandingCompetitions",
       getCompetition: "competitions/getCompetition"
     }),
 
@@ -82,6 +82,13 @@ export default {
       console.log("handleCompet");
       await this.getCompetition(id);
       this.showModal();
+    },
+
+    /**
+     * @return {String}
+     */
+    rendImg({ src }) {
+      return `/storage/img/competitions/${src}`
     }
   }
 };

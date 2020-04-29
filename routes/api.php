@@ -38,6 +38,7 @@ $router->group(['middleware' => 'laravel.jwt'], function () use ($router) {
         'prefix' => 'competitions'
     ], function ($router) {
         $router->get('/', 'CompetitionController@index');
+        $router->get('/landing', 'CompetitionController@landing');
         $router->post('/', 'CompetitionController@create');
         $router->get('/{id}', 'CompetitionController@show');
         $router->put('/{id}', 'CompetitionController@update');

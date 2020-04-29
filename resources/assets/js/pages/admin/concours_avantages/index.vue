@@ -93,10 +93,7 @@ export default {
         {
           key: "image",
           label: "Image",
-          formatter: v => {
-            console.log({ v })
-            return v
-          }
+          formatter: v => v
         }
       ],
 

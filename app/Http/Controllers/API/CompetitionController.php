@@ -21,8 +21,10 @@ class CompetitionController extends Controller
 
   public function landing()
   {
-    $competitions = Competition::orderBy('publication','DESC')
-                               ->with('image')
+    $competitions = Competition::with('image')
+                               ->orderBy('publication', 'DESC')
+                               ->orderBy('on_top', 'DESC')
+                               ->where('in_landing', 1)
                                ->get();
                                
     return response()->json($competitions);
