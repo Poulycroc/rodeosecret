@@ -89,6 +89,14 @@ export default {
             return item.on_top === "1" ? "Oui" : "Non";
           },
           sortable: true
+        },
+        {
+          key: "image",
+          label: "Image",
+          formatter: v => {
+            console.log({ v })
+            return v
+          }
         }
       ],
 

@@ -13,7 +13,11 @@
       >
         <article class="platform-item" @click="handleCompet(competition)">
           <header>
-            <img src="img/default.jpg" alt="" />
+            <img
+              v-if="competition.image"
+              :src="competition.image.src"
+              :alt="competition.image.alt"
+            />
             <h2>{{ competition.title }}</h2>
           </header>
           <p style="padding: 15px 35px;">

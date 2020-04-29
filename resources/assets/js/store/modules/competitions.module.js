@@ -1,4 +1,5 @@
 import axios from "axios";
+import apiService from "../../services/api.service";
 
 const state = () => ({
   competitions: [],
@@ -31,13 +32,26 @@ const actions = {
   },
 
   async setCompetitions({ commit }, payload) {
-    console.log({ setCompetitions: payload });
-    const { data } = await axios.post("competitions", payload);
+    const { data } = await axios({
+      method: "post",
+      url: "competitions",
+      data: payload,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
     commit("SET_COMPETITIONS", { competitions: data.competitions });
   },
 
-  async editCompetitions({ commit }, { id, name }) {
-    const { data } = await axios.put(`competitions/${id}`, { name });
+  async editCompetitions({ commit }, { id, payliad }) {
+    const { data } = await axios({
+      method: "put",
+      url: `competitions/${id}`,
+      data: payliad,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
     commit("SET_COMPETITIONS", { competitions: data.competitions });
   },
 

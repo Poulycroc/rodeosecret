@@ -68,6 +68,14 @@
       <template v-slot:cell(email)="{ item }">
         <a :href="`mailto:${item.email}`">{{ item.email }}</a>
       </template>
+      <template v-slot:cell(image)="{ item }">
+        <img
+          v-if="item.image"
+          :src="`/storage/img/competitions/${item.image.src}`"
+          :alt="item.image.alt"
+        />
+        <span v-else> / </span>
+      </template>
     </b-table>
 
     <b-pagination

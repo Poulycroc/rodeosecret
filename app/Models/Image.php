@@ -15,7 +15,7 @@ class Image extends Model
     'alt'
   ];
 
-  public function transaction()
+  public function competition()
   {
     return $this->belongsTo(Competition::class);
   }

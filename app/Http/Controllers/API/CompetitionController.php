@@ -13,6 +13,16 @@ class CompetitionController extends Controller
   public function index()
   {
     $competitions = Competition::orderBy('publication','DESC')
+                               ->with('image')
+                               ->get();
+                               
+    return response()->json($competitions);
+  }
+
+  public function landing()
+  {
+    $competitions = Competition::orderBy('publication','DESC')
+                               ->with('image')
                                ->get();
                                
     return response()->json($competitions);
@@ -20,6 +30,8 @@ class CompetitionController extends Controller
 
   public function create(Request $request)
   {
+    
+
     $competition = new Competition;
     $competition->title = $request->input('title');
     $competition->type = $request->input('type');
@@ -31,28 +43,30 @@ class CompetitionController extends Controller
     $competition->category_id = $request->input('category_id');
     $competition->save();
 
-    $competitions = Competition::orderBy('publication','DESC')
-                               ->get();
-
-
-    if (isset($request->img)) {
-      $exploded = explode(',', $request->img);
+    if ($request->input('img') !== null) {
+      $exploded = explode(',', $request->input('img'));
       $decoded = base64_decode($exploded[1]);
-
-      $ext = str_contains($exploded[0], 'jpeg') ? 'jpg' : 'png';
       
-      $fileName = str_random().'.'. $ext;
-      $path = public_path().'/images/competitions/'.$fileName;
-      file_put_contents($path, $decoded);
-      $imgAlt = $request->title != '' ? $request->title . ' | ' : '';
+      $ext = str_contains($exploded[0], 'jpeg') ? 'jpg' : 'png';
+      $fileName = str_random().'.'.$ext;
+      $path = public_path().'/storage/img/competitions/'.$fileName;
+
+      $file = fopen($path, "w");
+      fwrite($file, $decoded);
+      fclose($file); 
+      
+      $imgAlt = $request->input('title') != '' ? $request->input('title') : '';
 
       $img = new Image();
-      $img->alt = $imgAlt . 'Club Avantages';
+      $img->alt = $imgAlt;
       $img->src = $fileName;
 
-      $transaction->image()->save($img);
+      $competition->image()->save($img);
     }
-                               
+
+    $competitions = Competition::orderBy('publication','DESC')
+                               ->with('image')
+                               ->get();
 
     return response()->json([
       'competition' => $competition,
@@ -85,7 +99,9 @@ class CompetitionController extends Controller
     $competition->category_id = $request->input('category_id');
     $competition->save();
 
-    $competitions = Competition::all();
+    $competitions = Competition::orderBy('publication','DESC')
+                               ->with('image')
+                               ->get();
     
     return response()->json([
       'competition' => $competition,

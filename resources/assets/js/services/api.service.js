@@ -17,6 +17,16 @@ const removeHeaders = () => {
   axios.defaults.headers.common = {};
 };
 
+/**
+ * @param {Object} config
+ */
+const addHeaders = config => {
+  axios.defaults.headers.common = {
+    ...axios.defaults.headers.common,
+    ...config
+  };
+};
+
 const crud = {
   get(resource) {
     return axios.get(resource).then(res => {
@@ -48,6 +58,7 @@ const customRequest = request => {
 export default {
   init,
   ...crud,
+  addHeaders,
   removeHeaders,
   customRequest
 };

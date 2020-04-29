@@ -32,6 +32,8 @@ $app->configure('auth');
 $app->configure('database');
 $app->configure('services');
 $app->configure('mail');
+$app->configure('filesystems');
+class_alias('Illuminate\Support\Facades\Storage', 'Storage');
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +45,13 @@ $app->configure('mail');
 | your own bindings here if you like or you can make another file.
 |
 */
+
+$app->singleton(
+    Illuminate\Contracts\Filesystem\Factory::class,
+    function ($app) {
+        return new Illuminate\Filesystem\FilesystemManager($app);
+    }
+);
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,

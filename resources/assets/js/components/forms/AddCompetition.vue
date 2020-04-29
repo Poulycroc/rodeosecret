@@ -34,8 +34,8 @@
       />
     </b-form-group>
 
-    <b-form-group label="Ajouter une image">
-      <b-form-file id="file-default"></b-form-file>
+    <b-form-group for="file-default" label="Ajouter une image">
+      <b-form-file id="file-default" @change="handleImgUpload"></b-form-file>
     </b-form-group>
 
     <b-form-checkbox
@@ -77,8 +77,9 @@ export default {
         start_event: now,
         publication: now,
         on_top: 1,
-        img: 1,
-        in_landing: 1
+        img: null,
+        in_landing: 1,
+        description: ''
       }
     };
   },
@@ -117,6 +118,15 @@ export default {
   methods: {
     handleChangeCat($event) {
       console.log({ $event });
+    },
+    handleImgUpload(e) {
+      let fileReader = new FileReader();
+
+      fileReader.readAsDataURL(e.target.files[0]);
+
+      fileReader.onload = e => {
+        this.competitionForm.img = e.target.result;
+      };
     }
   }
 };
