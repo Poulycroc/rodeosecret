@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Competition;
+use App\Models\Image;
 
 class CompetitionController extends Controller
 {
@@ -32,6 +33,26 @@ class CompetitionController extends Controller
 
     $competitions = Competition::orderBy('publication','DESC')
                                ->get();
+
+
+    if (isset($request->img)) {
+      $exploded = explode(',', $request->img);
+      $decoded = base64_decode($exploded[1]);
+
+      $ext = str_contains($exploded[0], 'jpeg') ? 'jpg' : 'png';
+      
+      $fileName = str_random().'.'. $ext;
+      $path = public_path().'/images/competitions/'.$fileName;
+      file_put_contents($path, $decoded);
+      $imgAlt = $request->title != '' ? $request->title . ' | ' : '';
+
+      $img = new Image();
+      $img->alt = $imgAlt . 'Club Avantages';
+      $img->src = $fileName;
+
+      $transaction->image()->save($img);
+    }
+                               
 
     return response()->json([
       'competition' => $competition,

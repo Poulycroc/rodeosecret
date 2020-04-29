@@ -18,19 +18,25 @@
       />
     </b-form-group>
 
-    <label for="publish-date">Date de publication</label>
-    <b-form-datepicker
-      id="publish-date"
-      v-model="competitionForm.publication"
-      class="mb-2"
-    />
+    <b-form-group label="Date de publication">
+      <b-form-datepicker
+        id="publish-date"
+        v-model="competitionForm.publication"
+        class="mb-2"
+      />
+    </b-form-group>
 
-    <label for="start-event-date">Début de l'événement</label>
-    <b-form-datepicker
-      id="start-event-date"
-      v-model="competitionForm.start_event"
-      class="mb-2"
-    />
+    <b-form-group label="Début de l'événement">
+      <b-form-datepicker
+        id="start-event-date"
+        v-model="competitionForm.start_event"
+        class="mb-2"
+      />
+    </b-form-group>
+
+    <b-form-group label="Ajouter une image">
+      <b-form-file id="file-default"></b-form-file>
+    </b-form-group>
 
     <b-form-checkbox
       v-model="competitionForm.on_top"
@@ -71,6 +77,7 @@ export default {
         start_event: now,
         publication: now,
         on_top: 1,
+        img: 1,
         in_landing: 1
       }
     };

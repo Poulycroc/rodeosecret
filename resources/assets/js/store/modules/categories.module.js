@@ -23,20 +23,16 @@ const actions = {
 
   async setCategories({ commit }, payload) {
     const { data } = await axios.post("categories", payload);
-    // flash data.category
     commit("SET_CATEGORIES", { categories: data.categories });
   },
 
   async editCategories({ commit }, { id, name }) {
     const { data } = await axios.put(`categories/${id}`, { name });
-    // flash data.category
     commit("SET_CATEGORIES", { categories: data.categories });
   },
 
   async deleteCategories({ commit }, { id }) {
-    console.log("deleteCategories");
     const { data } = await axios.delete(`categories/${id}`);
-    // flash data.category
     commit("SET_CATEGORIES", { categories: data.categories });
   }
 };

@@ -33,21 +33,17 @@ const actions = {
   async setCompetitions({ commit }, payload) {
     console.log({ setCompetitions: payload });
     const { data } = await axios.post("competitions", payload);
-    // flash data.category
-    console.log({ data });
     commit("SET_COMPETITIONS", { competitions: data.competitions });
   },
 
   async editCompetitions({ commit }, { id, name }) {
     const { data } = await axios.put(`competitions/${id}`, { name });
-    // flash data.category
     commit("SET_COMPETITIONS", { competitions: data.competitions });
   },
 
   async deleteCompetitions({ commit }, { id }) {
     console.log("deleteCompetitions");
     const { data } = await axios.delete(`competitions/${id}`);
-    // flash data.category
     commit("SET_COMPETITIONS", { competitions: data.competitions });
   }
 };

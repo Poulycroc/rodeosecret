@@ -117,7 +117,6 @@ export default {
     }),
 
     handleCompetitionChange(competition) {
-      console.log({ competition });
       this.competitionToSubmit = competition;
     },
 
@@ -130,9 +129,9 @@ export default {
      * @param {Object} competition
      */
     async handleEdit({ id }) {
-      await this.getCompetition(id)
+      await this.getCompetition(id);
       await this.getCategories();
-      this.isEditModalMode = true
+      this.isEditModalMode = true;
       this.isCompetitionModalOpen = true;
     },
     async handleRemove({ id, title }) {
@@ -140,17 +139,14 @@ export default {
       this.showDeleteMessage(id, title);
     },
     handleHidden($event) {
-      this.isEditModalMode = false
+      this.isEditModalMode = false;
       this.isCompetitionModalOpen = false;
-      console.log({ $event });
     },
     async handleSubmit($event) {
-      console.log('handleSubmit')
-      console.log({ isEditModalMode: this.isEditModalMode })
       if (this.isEditModalMode) {
-        await this.setCompetitions(this.competitionToSubmit);
+        await this.editCompetitions(this.competitionToSubmit);
       } else {
-        await this.editCompetitions(this.competitionToSubmit)
+        await this.setCompetitions(this.competitionToSubmit);
       }
     },
 
@@ -168,7 +164,7 @@ export default {
           centered: true
         })
         .then(async () => await this.deleteCompetitions({ id }))
-        .catch(err => console.log(err));
+        .catch(err => new Error(err));
     }
   }
 };

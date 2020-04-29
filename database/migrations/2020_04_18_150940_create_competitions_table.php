@@ -22,7 +22,7 @@ class CreateCompetitionsTable extends Migration
             $table->boolean('on_top')->default(1); // true
             $table->date('publication')->default(Carbon::now());
             $table->date('start_event');
-            $table->longText('description');
+            $table->longText('description')->nullable();
 
             $table->integer('category_id')
                   ->unsigned();

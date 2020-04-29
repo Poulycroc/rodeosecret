@@ -32,7 +32,6 @@ const actions = {
 
   async editWinners({ commit }, { id, name }) {
     const { data } = await axios.put(`winners/${id}`, { name });
-    // flash data.category
     commit("SET_WINNERS", { winners: data.winners });
   },
 
@@ -48,7 +47,6 @@ const actions = {
 
   async saveWinner({ commit }, winner) {
     const { data } = await axios.post("winners/save", winner);
-    console.log({ saveWinner: data })
     commit("SET_CONFIRMED_WINNER", data.winner);
     commit("SET_WINNERS", data.winners);
   }

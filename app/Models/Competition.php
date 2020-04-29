@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Participant;
+use App\Models\Image;
 
 class Competition extends Model
 {
@@ -30,5 +31,10 @@ class Competition extends Model
     public function participants()
     {
       return $this->belongsToMany(Participant::class, 'competition_participant');
+    }
+
+    public function image() 
+    {
+        return $this->hasOne(Image::class);
     }
 }

@@ -37,7 +37,6 @@ const actions = {
     }
     console.log({ test })
     const { data } = await axios.post("participants", test);
-    // flash data.category
     commit("SET_PARTICIPANTS", { participants: data.participants });
   },
 
@@ -48,9 +47,7 @@ const actions = {
   },
 
   async deleteParticipants({ commit }, { id }) {
-    console.log("deleteparticipants");
     const { data } = await axios.delete(`participants/${id}`);
-    // flash data.category
     commit("SET_PARTICIPANTS", { participants: data.participants });
   },
 
