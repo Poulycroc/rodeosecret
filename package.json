@@ -24,7 +24,7 @@
     "popper.js": "^1.12.9",
     "sass-tools": "git://github.com:Poulycroc/sass-tools.git",
     "sweetalert2": "^7.3.5",
-    "swiper": "^5.3.7",
+    "swiper": "^6.5.1",
     "vform": "^0.8.1",
     "vue": "^2.5.13",
     "vue-awesome-swiper": "^4.1.0",
